@@ -1,0 +1,12 @@
+SimpleRest
+==========
+
+install it as a plugin in your dedomenon installation
+
+
+Example
+=======
+
+./script/plugin install http://github.com/raphinou/rest_simple
+
+
