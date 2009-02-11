@@ -1,6 +1,10 @@
 class Rest::Simple::InstancesController < ApplicationController
+  accept_auth :api_key ,:http_basic_auth 
   require 'entities_module'
   include EntitiesHelpers
+  
+  before_filter :login_required
+
   def list_length
     RestSimpleSettings.list_length
   end
