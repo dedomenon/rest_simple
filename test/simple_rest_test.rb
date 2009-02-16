@@ -75,6 +75,11 @@ class SimpleRestTest < ActiveSupport::TestCase
     assert_equal 5, assigns["list"].length
     assert_equal @response.body, json_file('persons_name_start_with_b_ordered_by_prenom')
 
+    get :index, {:id=> 12, :detail_filter => 'nom', :value_filter => 'b', :order_by => 'prenom' , :api_key=> "MJHGKSrfgsd754", :callback=> "my_callback"  }
+    assert_response :success
+    assert_equal 5, assigns["list"].length
+    assert_equal @response.body, json_file('persons_name_start_with_b_ordered_by_prenom_in_callback')
+
 
     
     # ------------------------------
