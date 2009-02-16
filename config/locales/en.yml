@@ -1,0 +1,6 @@
+en:
+  rest:
+    simple:
+      admin:
+        entities:
+          madb_data_is_publicly_available: "Make this data publicly available"

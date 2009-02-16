@@ -4,6 +4,7 @@ class Rest::Simple::InstancesController < ApplicationController
   include EntitiesHelpers
   
   before_filter :login_required
+  before_filter :check_data_is_public
 
   def list_length
     RestSimpleSettings.list_length
@@ -27,7 +28,7 @@ class Rest::Simple::InstancesController < ApplicationController
 
   def index
 
-    @entity = Entity.find params["id"]
+    @entity ||= Entity.find params["id"]
     crosstab_result =  crosstab_query_for_entity(params["id"])
     if crosstab_result.nil?
       render :json => {} and return
@@ -49,6 +50,20 @@ class Rest::Simple::InstancesController < ApplicationController
 
     respond_to do |format|
       format.json { render :json => @list.to_json }
+    end
+  end
+
+  private
+
+  def check_data_is_public
+    @entity ||= Entity.find params["id"]
+    if  @entity.has_public_data?
+      return true
+    else
+      respond_to do |format|
+        format.html { render :status => 403, :text => "Data not publicly available" }
+        format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"   } }
+      end
     end
   end
 end
