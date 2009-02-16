@@ -1,4 +1,4 @@
-class Rest::Simple::InstancesController < ApplicationController
+class Rest::Simple::V1::InstancesController < ApplicationController
   accept_auth :api_key ,:http_basic_auth 
   require 'entities_module'
   include EntitiesHelpers
@@ -49,7 +49,15 @@ class Rest::Simple::InstancesController < ApplicationController
     @list = CrosstabObject.find_by_sql(query)
 
     respond_to do |format|
-      format.json { render :json => @list.to_json }
+      format.json { 
+        if params[:callback]
+          r = "function #{params[:callback]}(){"
+          r+= @list.to_json
+          r+= "}"
+        else
+          r=@list.to_json
+        end
+        render :json => r }
     end
   end
 
@@ -62,7 +70,7 @@ class Rest::Simple::InstancesController < ApplicationController
     else
       respond_to do |format|
         format.html { render :status => 403, :text => "Data not publicly available" }
-        format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"   } }
+        format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"} }
       end
     end
   end

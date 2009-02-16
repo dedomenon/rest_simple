@@ -4,4 +4,4 @@ require 'ostruct'
   :list_length => 100
 )
 
-AppConfig.plugins.push( {:name => :rest_simple } )
+AppConfig.plugins.push( {:name => :rest_simple, :admin_entities_view => "/rest/simple/v1/admin/entities/show"  } )

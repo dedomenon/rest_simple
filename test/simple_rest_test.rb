@@ -25,7 +25,7 @@ class SimpleRestTest < ActiveSupport::TestCase
               :user_types, 
               :users
   def setup
-    @controller = Rest::Simple::InstancesController.new
+    @controller = Rest::Simple::V1::InstancesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end

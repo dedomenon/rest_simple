@@ -1,6 +1,6 @@
 <div><span><input type="checkbox" <%= @entity.has_public_data? ? %{CHECKED=CHECKED} : "" %>
       onclick="new Ajax.Request(
-      '<%= url_for(:controller => "rest/simple/admin/entities", :action => 'toggle_public_data')%>',
+      '<%= url_for(:controller => "rest/simple/v1/admin/entities", :action => 'toggle_public_data')%>',
       {  postBody: 'id='+<%=@entity.id%>+'&value='+this.checked
       ,onSuccess: new Effect.Highlight(this.parentNode)
       }

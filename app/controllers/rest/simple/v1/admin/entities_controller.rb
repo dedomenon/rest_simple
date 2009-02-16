@@ -1,4 +1,4 @@
-class Rest::Simple::Admin::EntitiesController < ApplicationController
+class Rest::Simple::V1::Admin::EntitiesController < ApplicationController
   before_filter :login_required
   def toggle_public_data
     entity = Entity.find params['id']
