@@ -51,9 +51,9 @@ class Rest::Simple::V1::InstancesController < ApplicationController
     respond_to do |format|
       format.json { 
         if params[:callback]
-          r = "function #{params[:callback]}(){"
+          r = "#{params[:callback]}("
           r+= @list.to_json
-          r+= "}"
+          r+= ")"
         else
           r=@list.to_json
         end
