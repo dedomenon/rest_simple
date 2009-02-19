@@ -5,6 +5,7 @@ class Rest::Simple::V1::InstancesController < ApplicationController
   
   before_filter :login_required
   before_filter :check_data_is_public
+  before_filter :set_search_value_param_name
 
   def list_length
     RestSimpleSettings.list_length
@@ -72,6 +73,12 @@ class Rest::Simple::V1::InstancesController < ApplicationController
         format.html { render :status => 403, :text => "Data not publicly available" }
         format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"} }
       end
+    end
+  end
+
+  def set_search_value_param_name
+    if params[:value_filter].nil? and params[:value_filter_parameter_name]
+      params[:value_filter]= params[params[:value_filter_parameter_name]]
     end
   end
 end
