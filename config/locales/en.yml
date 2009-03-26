@@ -3,4 +3,5 @@ en:
     simple:
       admin:
         entities:
-          madb_data_is_publicly_available: "Make this data publicly available"
+          madb_data_is_publicly_available: "Make this data publicly available through the REST API"
+          madb_data_is_publicly_available_for_all: 'Make this data available to all under the <a href="http://www.opendatacommons.org/licenses/odbl/">Open DataBase Public License</a>'

@@ -7,4 +7,12 @@
       );"
       name="is_data_public" /><%= t("rest.simple.admin.entities.madb_data_is_publicly_available") %> </span></div>
 
+<div><span><input type="checkbox" <%= @entity.public_to_all? ? %{CHECKED=CHECKED} : "" %>
+      onclick="new Ajax.Request(
+      '<%= url_for(:controller => "rest/simple/v1/admin/entities", :action => 'toggle_public_data_for_all')%>',
+      {  postBody: 'id='+<%=@entity.id%>+'&value='+this.checked
+      ,onSuccess: new Effect.Highlight(this.parentNode)
+      }
+      );"
+      name="is_data_public_to_all" /><%= t("rest.simple.admin.entities.madb_data_is_publicly_available_for_all") %> </span></div>
 

@@ -67,12 +67,17 @@ class Rest::Simple::V1::InstancesController < ApplicationController
   def check_data_is_public
     @entity ||= Entity.find params["id"]
     if  @entity.has_public_data?
-      return true
-    else
-      respond_to do |format|
-        format.html { render :status => 403, :text => "Data not publicly available" }
-        format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"} }
+      # if data public for account only, check account of requestor
+      if @entity.public_to_all?
+        return true 
+      else
+        return true if @entity.database.account==current_user.account
       end
+    end
+    #if we get here, reject the request
+    respond_to do |format|
+      format.html { render :status => 403, :text => "Data not publicly available" }
+      format.json { render :status => 403, :json => { :message => "Unauthorized: data not publicly available"} }
     end
   end
 
