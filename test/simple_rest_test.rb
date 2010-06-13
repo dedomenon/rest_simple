@@ -1,6 +1,8 @@
 require 'test/unit'
 require File.dirname(__FILE__)+'/../../../../test/test_helper.rb'
 #require File.dirname(__FILE__)+'/../../../../vendor/rails/railties/test/plugin_test_helper.rb'
+
+#FIXME : the first get of a test has to specify the :format => 'json' option, the other not. I do not know what's happening
 class SimpleRestTest < ActionController::TestCase
   # Replace this with your real tests.
    self.fixture_path=File.dirname(__FILE__)+'/fixtures'
@@ -36,10 +38,10 @@ class SimpleRestTest < ActionController::TestCase
 
     #data is not available publicly, return 403 status
     #same account
-    get :index, {'id'=> 12, :api_key=> "ArgsfgDFGesgsf"  }
+    get :index, {'id'=> 12, 'format'=> 'json',  :api_key=> "ArgsfgDFGesgsf"  }
     assert_response 403
     #other account
-    get :index, {'id'=> 12, :api_key=> "56HGRhdfY4"  }
+    get :index, {'id'=> 12,  :api_key=> "56HGRhdfY4"  }
     assert_response 403
   end
 
@@ -47,15 +49,15 @@ class SimpleRestTest < ActionController::TestCase
     #data is not available publicly, return 403 status
     publish_entity(12, false)
     #same account
-    get :index, {'id'=> 12, :api_key=> "ArgsfgDFGesgsf"  }
+    get :index, {'id'=> 12, 'format' => 'json', :api_key=> "ArgsfgDFGesgsf"  }
     assert_response :success
-    get :index, {'id'=> 12, :api_key=> "56HGRhdfY4"  }
+    get :index, {'id'=> 12, 'format' => 'json', :api_key=> "56HGRhdfY4"  }
     assert_response 403
   end 
 
   def test_authorized_get_unfiltered_list
     publish_entity(12)
-    get :index, {'id'=> 12, :api_key=> "56HGRhdfY4"  }
+    get :index, {'id'=> 12, 'format' => 'json', :api_key=> "56HGRhdfY4"  }
     assert_response :success
     assert_equal 15, assigns["list"].length
     assert_equal JSON.parse(@response.body), JSON.parse(json_file('all_entities'))
@@ -67,7 +69,7 @@ class SimpleRestTest < ActionController::TestCase
     # ----------------------------------
     # Filter on start of value (default)
     # ----------------------------------
-    get :index, {:id=> 12, :detail_filter => 'prenom', :value_filter => 'incent' , :api_key=> "56HGRhdfY4"  }
+    get :index, {:id=> 12, :format => 'json',   :detail_filter => 'prenom', :value_filter => 'incent' , :api_key=> "56HGRhdfY4"  }
     assert_response :success
     assert_equal 0, assigns["list"].length
     assert_equal @response.body, %{[]}
